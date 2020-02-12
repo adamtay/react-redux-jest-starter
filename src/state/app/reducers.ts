@@ -1,10 +1,20 @@
-import { createReducer } from 'typesafe-actions';
-import AppActions from './actions';
+import { ActionPayload } from '../helpers/actions';
 import { AppState } from './state';
+import AppActionTypes from './actionTypes';
 
-export default createReducer('')
-    .handleAction(AppActions.ActionWithoutPayload)
-    .handleAction(AppActions.ActionWithPayload, (state: AppState, payload: string) => ({
-        ...state,
-        propertyName: payload
-    }));
+const initialState: AppState = {
+    propertyName: ''
+};
+
+export default (state = initialState, action: ActionPayload<unknown>): AppState => {
+    switch (action.type) {
+        case AppActionTypes.ActionTypeName: {
+            return {
+                ...state,
+                propertyName: action.payload as string
+            };
+        }
+        default:
+            return state;
+    }
+};
